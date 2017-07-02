@@ -14,13 +14,16 @@ Encore
     .addEntry('script', './assets/js/app.js')
 
     // will output as web/build/global.css
-    .addStyleEntry('style', './assets/scss/app.scss')
+    .addStyleEntry('style', './assets/sass/app.scss')
 
     // allow sass/scss files to be processed
     .enableSassLoader()
 
     // allow legacy applications to use $/jQuery as a global variable
     .autoProvidejQuery()
+
+    // Loading vue
+    .enableVueLoader()
 
     .enableSourceMaps(!Encore.isProduction())
 
