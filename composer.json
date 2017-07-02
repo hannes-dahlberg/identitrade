@@ -23,7 +23,9 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",
+        "spomky-labs/otphp": "^8.3",
         "symfony/monolog-bundle": "^3.0.2",
+        "symfony/polyfill-php70": "^1.4",
         "symfony/swiftmailer-bundle": "~2.3,>=2.3.10",
         "symfony/symfony": "2.8.*",
         "twig/twig": "^1.0||^2.0"
