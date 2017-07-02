@@ -15,7 +15,7 @@ class User {
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=256)
+     * @ORM\Column(type="string", length=416)
      */
     private $email;
 

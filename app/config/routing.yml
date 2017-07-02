@@ -1,3 +1,6 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+catch_all:
+    path: /{catch_all}
+    defaults:
+        { _controller: AppBundle:Default:index, catch_all: 1 }
+    requirements:
+        catch_all: "[\s\S]+"
