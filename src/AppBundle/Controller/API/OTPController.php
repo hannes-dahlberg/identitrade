@@ -13,15 +13,18 @@ class OTPController extends Controller {
      * @RateLimit(Limit=1, period=10)
      */
     public function sendEmailAction(Request $request) {
+        //Get json params sent
+        $json = $this->getJsonData();
+
         //Entity manager
         $em = $this->getDoctrine()->getManager();
 
         //Check if user (by email) is not in the DB
-        if(!$user = $this->getUserByEmail($em, $request->request->get('email'))) {
+        if(!$user = $this->getUserByEmail($em, $json['email'])) {
             /*Creates new user object and set email posted by user as well as
             generated secret*/
             $user = new User();
-            $user->setEmail($request->request->get('email'));
+            $user->setEmail($json['email']);
             $user->setOtpSecret(\Base32\Base32::encode(random_bytes(256)));
 
             //Validates user object
@@ -62,14 +65,17 @@ class OTPController extends Controller {
      * @RateLimit(Limit=4, period=10)
      */
     public function validateAction(Request $request) {
+        //Get json params sent
+        $json = $this->getJsonData();
+
         //Entity manager
         $em = $this->getDoctrine()->getManager();
 
         //Check for user in DB
-        if($user = $this->getUserByEmail($em, $request->request->get('email'))) {
+        if($user = $this->getUserByEmail($em, $json['email'])) {
             //get new totp
             $totp = $this->getNewTotp($user->getEmail(), $user->getOtpSecret());
-            if($totp->verify($request->request->get('otp'))) {
+            if($totp->verify($json['otp'])) {
                 //OTP was correct
                 return new JsonResponse(['message' => 'valid'], 200);
             }
@@ -77,6 +83,16 @@ class OTPController extends Controller {
 
         //Returns 404
         return new JsonResponse(['message' => 'Validation failed or user was not found'], 404);
+    }
+
+    private function getJsonData() {
+        $params = [];
+        $content = $this->get("request")->getContent();
+        if (!empty($content)) {
+            $params = json_decode($content, true);
+        }
+
+        return $params;
     }
 
     private function getUserByEmail($em, $email) {

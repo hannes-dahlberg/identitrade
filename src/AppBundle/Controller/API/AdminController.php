@@ -13,8 +13,11 @@ class AdminController extends controller {
      * @RateLimit(Limit=4, period=10)
      */
     public function authAction(Request $request) {
+        //Get json params sent
+        $json = $this->getJsonData();
+
         //Authenticate with password and return JWT-token if success
-        if($request->request->get('password') && $request->request->get('password') === $this->container->getParameter('admin_password')) {
+        if($json['password'] === $this->container->getParameter('admin_password')) {
             //Get JWT key and set issue time and expiration time
             $key = $this->container->getParameter('jwt_key');
             $iat = time();
@@ -30,6 +33,8 @@ class AdminController extends controller {
                 'token' => $token,
                 'expires' => $exp
             ]);
+        } else {
+            return new JsonResponse(['message' => 'authentication failed'], 403);
         }
     }
 
@@ -54,10 +59,10 @@ class AdminController extends controller {
                 }
 
                 //Return error
-                return new JsonResponse(['message' => $errorMessage], 403);
+                return new JsonResponse(['message' => $errorMessage], 401);
             }
         } else { //No header was set
-            return new JsonResponse(['message' => 'Missing authorization header'], 403);
+            return new JsonResponse(['message' => 'Missing authorization header'], 401);
         }
 
         //View all users
@@ -75,5 +80,15 @@ class AdminController extends controller {
 
         //Return users
         return new JsonResponse(['users' => $return]);
+    }
+
+    private function getJsonData() {
+        $params = [];
+        $content = $this->get("request")->getContent();
+        if (!empty($content)) {
+            $params = json_decode($content, true);
+        }
+
+        return $params;
     }
 }
