@@ -6,6 +6,13 @@ validate_otp:
     path: '/api/otp/validate'
     methods: [POST]
     defaults: { _controller: AppBundle:API\OTP:validate }
+auth:
+    path: '/api/admin'
+    methods: [POST]
+    defaults: { _controller: AppBundle:API\Admin:auth }
+admin:
+    path: '/api/admin'
+    defaults: { _controller: AppBundle:API\Admin:view }
 catch_all:
     path: /{catch_all}
     defaults:
