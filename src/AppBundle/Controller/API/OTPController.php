@@ -3,6 +3,7 @@
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Noxlogic\RateLimitBundle\Annotation\RateLimit;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use OTPHP\TOTP;
@@ -10,7 +11,9 @@ use AppBundle\Entity\User;
 use Swift_Message;
 
 class OTPController extends Controller {
-
+    /**
+     * @RateLimit(Limit=1, period=10)
+     */
     public function sendEmailAction(Request $request) {
         //Entity manager
         $em = $this->getDoctrine()->getManager();
@@ -57,6 +60,9 @@ class OTPController extends Controller {
         return new JsonResponse(['message' => 'email sent'], 200);
     }
 
+    /**
+     * @RateLimit(Limit=4, period=10)
+     */
     public function validateAction(Request $request) {
         //Entity manager
         $em = $this->getDoctrine()->getManager();
@@ -72,7 +78,7 @@ class OTPController extends Controller {
         }
 
         //Returns 404
-        return new JsonResponse(['message' => 'Validation failed of user was not found'], 404);
+        return new JsonResponse(['message' => 'Validation failed or user was not found'], 404);
     }
 
     private function getUserByEmail($em, $email) {
