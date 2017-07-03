@@ -6,10 +6,12 @@ import middleware from './middleware'
 //Import components
 import index from './templates/index.vue'
 
+//pages
 import pageStart from './templates/pages/start.vue'
 import pageValidate from './templates/pages/validate.vue'
 import pageAdmin from './templates/pages/admin.vue'
 
+//Error pages
 import errorIndex from './templates/error/index.vue'
 import error404 from './templates/error/404.vue'
 
@@ -23,6 +25,7 @@ const router = new VueRouter({
             { path: '/', component: pageStart, name: 'page.start' },
             { path: '/validate', component: pageValidate, name: 'page.validate' },
             { path: '/admin', component: pageAdmin, name: 'page.admin' }
+        //Each request will use the checkAuth and invalidRoute middleware
         ], beforeEnter: GuardsCheck([middleware.checkAuth, middleware.invalidRoute]) }
     ]
 })

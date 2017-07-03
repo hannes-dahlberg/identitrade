@@ -53,18 +53,25 @@
             this.getUsers()
         },
         methods: {
+            //Authenticate user action
             auth() {
+                //Dispatch store action
                 this.$store.dispatch('auth', this.password).then(() => {
+                    //If successfull get all users
                     this.getUsers()
                 }).catch(() => {
+                    //Authentication failed
                     alert('Login failed')
                     this.hasError = true
                 })
             },
+            //Logout
             logout() {
                 this.$store.dispatch('removeToken')
             },
+            //Get all users
             getUsers() {
+                //Check if logged in first
                 if(this.isAuth) {
                     this.$store.dispatch('getUsers')
                 }

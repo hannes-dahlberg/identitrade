@@ -1,4 +1,4 @@
-//Load store, router, translations and directives modules
+//Load store, router and directives modules
 import store from './store/index'
 import router from './router'
 import directives from './directives'

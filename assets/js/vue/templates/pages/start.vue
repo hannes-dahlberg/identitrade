@@ -24,10 +24,14 @@
             }
         },
         methods: {
+            //Requesting OTP
             requestOtp() {
+                //Dispatch store action
                 this.$store.dispatch('requestOtp', this.email).then(() => {
+                    //OTP was sent to user
                     alert('OTP code sent to email. Check email inbox!')
                 }).catch(() => {
+                    //OTP request failed
                     alert('OTP was not sent')
                     this.hasError = true
                 })

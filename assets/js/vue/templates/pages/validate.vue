@@ -26,13 +26,17 @@
             }
         },
         methods: {
+            //Validate OTP
             validateOtp() {
+                //Dispatch store action
                 this.$store.dispatch('validateOtp', {
                     email: this.email,
                     otp: this.otp
                 }).then(() => {
+                    //OTP code was valid
                     alert('Valid!')
                 }).catch(() => {
+                    //OTP code was invalid
                     alert('Invalid!')
                     this.hasError = true
                 })
