@@ -1,6 +1,7 @@
 <?php namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -15,12 +16,15 @@ class User {
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=416)
+     * @ORM\Column(type="string", length=256)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=416)
+     * @Assert\NotBlank()
      */
     private $otpSecret;
 

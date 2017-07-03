@@ -1,3 +1,11 @@
+send_otp:
+    path: '/api/otp'
+    methods: [POST]
+    defaults: { _controller: AppBundle:API\OTP:sendEmail }
+validate_otp:
+    path: '/api/otp/validate'
+    methods: [POST]
+    defaults: { _controller: AppBundle:API\OTP:validate }
 catch_all:
     path: /{catch_all}
     defaults:
